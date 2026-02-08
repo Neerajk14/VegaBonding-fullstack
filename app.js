@@ -39,8 +39,7 @@ app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "./public")));
 app.use(express.json());
 
-console.log("hello",MongoStore)
-const store = MongoStore.create({
+ const store = MongoStore.create({
 mongoUrl:dbUrl,
 crypto:{
   secret:process.env.SESSION_SECRET
