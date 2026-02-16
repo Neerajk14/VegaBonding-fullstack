@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 module.exports.index = async (req, res) => {
   let allListings = await Listing.find({}).populate({
-      path: "reviews",
+      path: "reviews", 
       select: "rating",
     });;
   res.render("listings/index.ejs", { allListings });
