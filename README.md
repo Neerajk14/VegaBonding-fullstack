@@ -83,15 +83,8 @@ cd vegabonding
 npm install
 ```
 
-Create a `.env` file and add:
+ 
 
-```
-CLOUD_NAME=dpedknsnv
-CLOUD_API_KEY=725329543848136
-CLOUD_API_SECRET=9ruh419Lhr8ze_o_B6__jAklVvA
-ATLASDB_URL=mongodb+srv://admin-VB:k8zwW3eIwJB0XYoJ@cluster0.tt1yo5x.mongodb.net/?appName=Cluster0
-SESSION_SECRET=mysterious
-```
 
 Run the project:
 
