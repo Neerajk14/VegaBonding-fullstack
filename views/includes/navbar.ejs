@@ -1,4 +1,4 @@
- <style>
+ <!-- <style>
   .btn-search{
     background-color: #fe424d;
     color: white;
@@ -56,4 +56,119 @@
       </div>
     </div>
   </div>
-</nav>
+</nav> -->
+ <style>
+   .navbar-brand i {
+     font-size: 1.5rem;
+     color: #fe424d;
+   }
+
+   .btn-search {
+     background-color: #fe424d;
+     color: white;
+     border-radius: 25px;
+     padding: 0 1rem;
+     font-size: 0.9rem;
+   }
+
+   .btn-search:hover {
+     background-color: #fe424d;
+     color: white;
+   }
+
+   .search-input {
+     border-radius: 25px;
+     padding: 0.4rem 1rem;
+     font-size: 0.9rem;
+   }
+
+   /* Mobile adjustments */
+   @media (max-width: 768px) {
+     .desktop-only {
+       display: none !important;
+     }
+
+     .search-input {
+       width: 140px;
+     }
+   }
+ </style>
+
+ <nav class="navbar navbar-expand-md bg-white border-bottom sticky-top shadow-sm">
+   <div class="container-fluid">
+
+
+     <a class="navbar-brand" href="/listings">
+       <i class="fa-regular fa-compass"  ></i>
+     </a>
+
+     <form class="d-flex mx-auto" role="search" method="GET" action="/listings/search">
+       <input class="form-control me-2 search-input" type="text" name="q" placeholder="Search destination">
+       <button class="btn btn-search" type="submit">
+         <i class="fa-solid fa-magnifying-glass"></i>
+       </button>
+     </form>
+
+      <div class="navbar-nav ms-auto desktop-only">
+
+       <a class="nav-link fw-bold" href="/listings/new">Become a host</a>
+
+       <% if (!currentUser) { %>
+       <a class="nav-link fw-bold" href="/signup">Signup</a>
+       <a class="nav-link fw-bold" href="/login">Log in</a>
+       <% } %>
+
+       <% if (currentUser) { %>
+       <a class="nav-link fw-bold" href="/logout">Logout</a>
+       <% } %>
+
+     </div>
+
+   </div>
+ </nav>
+ <div class="bottom-nav-outer">
+<div class="mobile-bottom-nav d-md-none">
+
+   <a href="/listings">
+     <i class="fa-solid fa-house"></i>
+     <span>Explore</span>
+   </a>
+   <a href="/listings/new">
+     <i class="fa-solid fa-plus"></i>
+     <span>Host</span>
+   </a>
+   <% if (currentUser) { %>
+
+   <a href="/logout">
+     <i class="fa-solid fa-user"></i>
+     <span>Logout</span>
+   </a>
+   <% } else { %>
+   <a href="/signup">
+     <i class="fa-solid fa-user-plus"></i>
+     <span>Signup</span>
+   </a>
+   <a href="/login">
+     <i class="fa-solid fa-right-to-bracket"></i>
+     <span>Login</span>
+   </a>
+   <% } %>
+
+ </div>
+ </div>
+ 
+ <script>
+   let lastScroll = 0;
+   const bottomNav = document.querySelector(".mobile-bottom-nav");
+
+   window.addEventListener("scroll", () => {
+     let currentScroll = window.pageYOffset;
+     if (currentScroll > lastScroll && currentScroll > 10) {        
+       bottomNav.classList.add("hide");
+     } else {       
+       bottomNav.classList.remove("hide");
+     }
+     lastScroll = currentScroll;
+   });
+ </script>
+  
