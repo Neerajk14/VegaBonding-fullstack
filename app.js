@@ -19,6 +19,10 @@ const User = require("./models/user.js");
 const listingsRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
+const wishlistRouter = require("./routes/wishlist.js");
+const profileRouter = require("./routes/profile.js");
+const bookingRouter = require("./routes/booking.js");
+
 const dbUrl =process.env.ATLASDB_URL;
 async function main() {
   await mongoose.connect(dbUrl);
@@ -75,10 +79,11 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success")[0]||"";
+  res.locals.error = req.flash("error")[0]||"";
   res.locals.currentUser =req.user;
  res.locals.currentPath =req.path ||"";
+ res.locals.searchQuery =req.query.location || "";
   next();
 });
 
@@ -87,6 +92,9 @@ app.use((req, res, next) => {
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);
+app.use("/", wishlistRouter);
+app.use("/", profileRouter);
+app.use("/", bookingRouter);
  
 app.get("",(req,res)=>{
     res.redirect("/listings")
