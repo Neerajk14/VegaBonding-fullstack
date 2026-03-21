@@ -1,174 +1,132 @@
- <!-- <style>
-  .btn-search{
-    background-color: #fe424d;
-    color: white;
-    border-radius: 25px;
-    padding: 0 1rem 0 1rem;
-  }
-  .btn-search:hover{
-    background-color: #fe424d;
-    color: white;
-  }
-  .btn-search i{
-    display: inline;
-    margin-right:0.5rem ;    
-  }
-  .search-input{
-    border-radius: 25px;
-    padding: 0.5rem 3rem 0.5rem 3rem;
-    font-size: 1rem;
-  }
- </style>
-
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+<nav class="navbar navbar-expand-md sticky-top border-bottom">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNavAltMarkup"
-    >
-    <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        
-         <% if (currentPath!== "/listings") { %>
-       <a class="nav-link" href="/listings" id="link-icon"> Explore</a>
-      <% } %>
-      </div>
-      <div class="navbar-nav ms-auto">
-         <form class="d-flex" role="search" method="GET" action="/listings/search">
-      <input class="form-control me-2 search-input" type="text" name="q" placeholder="Search destination" />
-      <button class="btn btn-search" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
-    </form>
-      </div>
-      <div class="navbar-nav ms-auto" >
-         <a class="nav-link host" href="/listings/new" id="link-icon"> <b>Become a host</b></a>
-        <% if (!currentUser) { %>
-         <a class="nav-link" aria-current="page" href="/signup" id="link-icon"> <b>Signup</b></a>
-        <a class="nav-link" href="/login" id="link-icon"> <b>Log in</b></a>
-        <% } %> 
-        <% if (currentUser) { %>
-                 <a class="nav-link" href="/logout"><b>Log out</b></a>
-        <% } %>       
-      </div>
+     <a class="navbar-brand d-flex align-items-center" href="/listings">
+       <svg xmlns="http://www.w3.org/2000/svg" width="38" height="47" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-leaf-icon lucide-leaf"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+      <span id="appName" class="ms-2 d-none d-sm-inline">VB</span>
+    </a>
+
+     <div class="search-wrapper">
+      <form id="searchForm" 
+            action="/listings" 
+            method="GET" 
+            class="airbnb-search-bar">
+        <input 
+          type="text"
+          name="location"
+          id="locationSearch"
+          class="main-search-input"
+          placeholder="Anywhere | Any week | Add guests "
+          value="<%= typeof searchQuery !== 'undefined' && searchQuery.trim() ? searchQuery : '' %>"
+        />
+        <button type="button" class="clear-btn" id="clearSearch" style="display: none;">
+          <i class="fa-solid fa-times"></i>
+        </button>
+        <button type="submit" class="search-btn">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
     </div>
+
+ <div class="right-section d-flex align-items-center">
+   <div class="desktop-links d-none d-md-flex align-items-center">
+    <a class="nav-link fw-bold" href="/listings/new">Become a host</a>
+    
+    <% if(!currentUser){ %>
+      <a class="nav-link fw-bold" href="/signup">Sign up</a>
+      <a class="nav-link fw-bold me-3" href="/login">Log in</a>
+    <% } else { %>
+       <a href="/profile" class="profile-circle-link" title="View profile">
+        <span class="profile-circle">
+          <span class="profile-initial"><%= currentUser.username.charAt(0).toUpperCase() %></span>
+        </span>
+      </a>
+      
+       <div class="dropdown">
+        <button class="btn profile-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-regular fa-user"></i>
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="/profile">
+            <i class="fa-regular fa-circle-user me-2"></i> Profile
+          </a></li>
+          <li><a class="dropdown-item" href="/wishlist">
+            <i class="fa-regular fa-heart me-2"></i> Wishlist
+          </a></li>
+          <li><a class="dropdown-item" href="/trips">
+            <i class="fa-solid fa-plane-departure me-2"></i> Trips
+          </a></li>
+          <li><a class="dropdown-item" href="/listings/new">
+            <i class="fa-regular fa-plus-square me-2"></i> Become a host
+          </a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-danger" href="/logout">
+            <i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Log out
+          </a></li>
+        </ul>
+      </div>
+    <% } %>
   </div>
-</nav> -->
- <style>
-   .navbar-brand i {
-     font-size: 1.5rem;
-     color: #fe424d;
-   }
-
-   .btn-search {
-     background-color: #fe424d;
-     color: white;
-     border-radius: 25px;
-     padding: 0 1rem;
-     font-size: 0.9rem;
-   }
-
-   .btn-search:hover {
-     background-color: #fe424d;
-     color: white;
-   }
-
-   .search-input {
-     border-radius: 25px;
-     padding: 0.4rem 1rem;
-     font-size: 0.9rem;
-   }
-
-   /* Mobile adjustments */
-   @media (max-width: 768px) {
-     .desktop-only {
-       display: none !important;
-     }
-
-     .search-input {
-       width: 140px;
-     }
-   }
- </style>
-
- <nav class="navbar navbar-expand-md bg-white border-bottom sticky-top shadow-sm">
-   <div class="container-fluid">
-
-
-     <a class="navbar-brand" href="/listings">
-       <i class="fa-regular fa-compass"  ></i>
-     </a>
-
-     <form class="d-flex mx-auto" role="search" method="GET" action="/listings/search">
-       <input class="form-control me-2 search-input" type="text" name="q" placeholder="Search destination">
-       <button class="btn btn-search" type="submit">
-         <i class="fa-solid fa-magnifying-glass"></i>
-       </button>
-     </form>
-
-      <div class="navbar-nav ms-auto desktop-only">
-
-       <a class="nav-link fw-bold" href="/listings/new">Become a host</a>
-
-       <% if (!currentUser) { %>
-       <a class="nav-link fw-bold" href="/signup">Signup</a>
-       <a class="nav-link fw-bold" href="/login">Log in</a>
-       <% } %>
-
-       <% if (currentUser) { %>
-       <a class="nav-link fw-bold" href="/logout">Logout</a>
-       <% } %>
-
-     </div>
-
-   </div>
- </nav>
- <div class="bottom-nav-outer">
-<div class="mobile-bottom-nav d-md-none">
-
-   <a href="/listings">
-     <i class="fa-solid fa-house"></i>
-     <span>Explore</span>
-   </a>
-   <a href="/listings/new">
-     <i class="fa-solid fa-plus"></i>
-     <span>Host</span>
-   </a>
-   <% if (currentUser) { %>
-
-   <a href="/logout">
-     <i class="fa-solid fa-user"></i>
-     <span>Logout</span>
-   </a>
-   <% } else { %>
-   <a href="/signup">
-     <i class="fa-solid fa-user-plus"></i>
-     <span>Signup</span>
-   </a>
-   <a href="/login">
-     <i class="fa-solid fa-right-to-bracket"></i>
-     <span>Login</span>
-   </a>
-   <% } %>
-
- </div>
- </div>
- 
- <script>
-   let lastScroll = 0;
-   const bottomNav = document.querySelector(".mobile-bottom-nav");
-
-   window.addEventListener("scroll", () => {
-     let currentScroll = window.pageYOffset;
-     if (currentScroll > lastScroll && currentScroll > 10) {        
-       bottomNav.classList.add("hide");
-     } else {       
-       bottomNav.classList.remove("hide");
-     }
-     lastScroll = currentScroll;
-   });
- </script>
   
+   <button class="navbar-toggler" 
+          type="button" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#navbarNavAltMarkup">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+</div>
+  </div>
+
+  
+ <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+  <div class="navbar-nav d-md-none px-3 pb-3">
+    <a class="nav-link fw-bold py-2" href="/listings/new">
+      <i class="fa-regular fa-plus-square me-2"></i>Become a host
+    </a>
+    <% if(!currentUser){ %>
+      <a class="nav-link fw-bold py-2" href="/signup">Sign up</a>
+      <a class="nav-link fw-bold py-2" href="/login">Log in</a>
+    <% } else { %>
+      <a class="nav-link fw-bold py-2" href="/profile">
+        <i class="fa-regular fa-circle-user me-2"></i> Profile
+      </a>
+      <a class="nav-link fw-bold py-2" href="/wishlist">
+        <i class="fa-regular fa-heart me-2"></i> Wishlist
+      </a>
+      <a class="nav-link fw-bold py-2" href="/trips">
+        <i class="fa-solid fa-plane-departure me-2"></i> Trips
+      </a>
+      <a class="nav-link fw-bold py-2 text-danger" href="/logout">
+        <i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Log out
+      </a>
+    <% } %>
+  </div>
+</div>
+</nav>
+ 
+
+       <script>
+      
+
+         const searchInput = document.getElementById('locationSearch');
+         const clearBtn = document.getElementById('clearSearch');
+
+         searchInput.addEventListener('input', function() {
+           if (this.value.trim()) {
+             clearBtn.style.display = 'flex';
+           } else {
+             clearBtn.style.display = 'none';
+           }
+         });
+
+         clearBtn.addEventListener('click', function(e) {
+           e.preventDefault();
+           searchInput.value = '';
+           clearBtn.style.display = 'none';
+           searchInput.focus();
+         });
+
+         if (searchInput.value.trim()) {
+           clearBtn.style.display = 'flex';
+         }
+       </script>
