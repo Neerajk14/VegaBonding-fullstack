@@ -1,141 +1,298 @@
- <% layout("/layouts/boilerplate.ejs") %>
- <style>
-   #filters {
-     display: flex;
-     flex-wrap: wrap;
-     align-items: center;
-   }
+<% layout("/layouts/boilerplate") %> 
 
-   .filter {
-     text-align: center;
-     margin-right: 2rem;
-     margin-top: 2rem;
-     opacity: 0.7;
-   }
+<% const locParam = (searchQuery && searchQuery.trim()) ? '&location=' + encodeURIComponent(searchQuery) : '' %>
+<div class="filters-wrap">
+  <button class="filters-btn filters-left" aria-label="Scroll filters left"><i class="fa-solid fa-chevron-left"></i></button>
+  <div id="filters">
+   <a href="/listings<%= locParam ? '?' + locParam.substring(1) : '' %>" class="filter <%= !selectedCategory ? 'active' : '' %>">
+    <div><i class="fa-solid fa-border-all"></i></div>
+    <p>All</p>
+  </a>
+  <a href="/listings?category=Trending<%= locParam %>" class="filter <%= selectedCategory === 'Trending' ? 'active' : '' %>">
+    <div><i class="fa-solid fa-fire"></i></div>
+    <p>Trending</p>
+  </a>
+  <a href="/listings?category=Rooms<%= locParam %>" class="filter  <%= selectedCategory === 'Rooms' ? 'active' : '' %>">
+    <div><i class="fa-solid fa-bed"></i></div>
+    <p>Rooms</p>
+  </a>
+  <a href="/listings?category=Iconic Cities<%= locParam %>" class="filter <%= selectedCategory === 'Iconic Cities' ? 'active' : '' %>">
+    <div><i class="fa-solid fa-mountain-city"></i></div>
+    <p>Iconic Cities</p>
+  </a>
+  <a href="/listings?category=Mountains<%= locParam %>" class="filter <%= selectedCategory === 'Mountains' ? 'active' : '' %>">
+    <div><i class="fa-solid fa-mountain"></i></div>
+    <p>Mountains</p>
+  </a>
+  <a href="/listings?category=Castles<%= locParam %>" class="filter <%= selectedCategory === 'Castles' ? 'active' : '' %>">
+    <div><i class="fa-solid fa-chess-rook"></i></div>
+    <p>Castles</p>
+  </a>
+  <a href="/listings?category=Amazing Pools<%= locParam %>" class="filter <%= selectedCategory === 'Amazing Pools' ? 'active' : '' %>">
+    <div><i class="fa-solid fa-person-swimming"></i></div>
+    <p>Pools</p>
+  </a>
+  <a href="/listings?category=Camping<%= locParam %>" class="filter <%= selectedCategory === 'Camping' ? 'active' : '' %>">
+    <div><i class="fa-solid fa-campground"></i></div>
+    <p>Camping</p>
+  </a>
+  <a href="/listings?category=Farms<%= locParam %>" class="filter <%= selectedCategory === 'Farms' ? 'active' : '' %>">
+    <div><i class="fa-solid fa-cow"></i></div>
+    <p>Farms</p>
+  </a>
+  <a href="/listings?category=Arctic<%= locParam %>" class="filter <%= selectedCategory === 'Arctic' ? 'active' : '' %>">
+    <div><i class="fa-solid fa-snowflake"></i></div>
+    <p>Arctic</p>
+  </a>
+  <a href="/listings?category=Domes<%= locParam %>" class="filter <%= selectedCategory === 'Domes' ? 'active' : '' %>">
+    <div><i class="fa-solid fa-igloo"></i></div>
+    <p>Domes</p>
+  </a>
+  <a href="/listings?category=Boats<%= locParam %>" class="filter <%= selectedCategory === 'Boats' ? 'active' : '' %>">
+    <div><i class="fa-solid fa-ship"></i></div>
+    <p>Boats</p>
+  </a>
+  </div>
+   <div class="tax-toggle" aria-hidden="false">
+    <div class="form-check-reverse form-switch">
+      <input 
+        class="form-check-input" 
+        type="checkbox" 
+        role="switch" 
+        id="switchCheckDefault"
+      >
+      <label class="form-check-label" for="switchCheckDefault">Display taxes  ₹</label>
+    </div>
+  </div>
+   <button class="tax-toggle-mobile" aria-label="Toggle taxes">
+    <i class="fa-solid fa-percent"></i>
+  </button>
+  <button class="filters-btn filters-right" aria-label="Scroll filters right"><i class="fa-solid fa-chevron-right"></i></button>
+</div>
 
-   .filter:hover {
-     opacity: 1;
-     cursor: pointer;
-   }
-
-   .filter p {
-     font-size: 0.8rem;
-   }
-
-   .tax-info {
-     display: none;
-   }
-
-   .tax-toggle {
-     border: 1px solid black;
-     border-radius: 1rem;
-     height: 3.5rem;
-     padding: 1rem;
-     margin-left: 3rem;
-     display: flex;
-     align-items: center;
-   }
- </style>
- 
-
- <div id="filters">
-   <div class="filter">
-     <div><i class="fa-solid fa-fire-flame-curved"></i></div>
-     <p>Trending</p>
-   </div>
-   <div class="filter">
-     <div><i class="fa-solid fa-bed"></i></div>
-     <p> Rooms</p>
-   </div>
-   <div class="filter">
-     <div><i class="fa-solid fa-mountain-city"></i></div>
-     <p>Iconic Cities</p>
-   </div>
-   <div class="filter">
-     <div><i class="fa-solid fa-mountain"></i></div>
-     <p>Mountain</p>
-   </div>
-   <div class="filter">
-     <div><i class="fa-brands fa-fort-awesome"></i></div>
-     <p>Castles</p>
-   </div>
-   <div class="filter">
-     <div><i class="fa-solid fa-water-ladder"></i></div>
-     <p>Amazing Pools</p>
-   </div>
-   <div class="filter">
-     <div><i class="fa-solid fa-campground"></i></div>
-     <p> Camping</p>
-   </div>
-   <div class="filter">
-     <div><i class="fa-solid fa-tractor"></i></div>
-     <p> farms</p>
-   </div>
-   <div class="filter">
-     <div><i class="fa-solid fa-person-swimming"></i></div>
-     <p>Artic Pools</p>
-   </div>
-   <div class="tax-toggle">
-     <div class="form-check-reverse form-switch">
-       <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
-       <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
-     </div>
-   </div>
- </div>
- <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
-   <% for( let listing of allListings ) { %>
-
-   <%
-    let total = 0;
-  let count = 0;
-  let avgRating = 0;
- 
-  listing.reviews.forEach(review => {
-    if (review.rating !== undefined && !isNaN(review.rating)) {
-      total += Number(review.rating);
-      count++;
-    }
-  });
-
-  if (count > 0) {
-    avgRating = (total / count).toFixed(1);
-  }
-  %>
-
-
-
-   <a href="/listings/<%= listing._id %>" class="listing-link">
-     <div class="card col listing-card">
-       <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_img" style="height: 20rem;">
-       <div class="card-img-overlay"></div>
-       <div class="card-body">
-         <p class="card-text">
-           <b><%= listing.title %></b> <br>
-           &#8377;<%=listing.price.toLocaleString("en-IN")%>/Night
-           <i class="tax-info">&nbsp; &nbsp;+18% GST</i>&nbsp;
-            <% if (avgRating > 0) { %>
-           <i class="fa-solid fa-star avg-rating avg-rating-icon"></i>
-           <span class="avg-rating"><%= avgRating %> </span>
+ <% if(allListings.length === 0) { %>
+    <div class="no-listings-found">
+        <div class="no-listings-content">
+            <i class="fa-regular fa-map"></i>
+            <h3>No listings found</h3>
+            <% if(searchQuery && searchQuery.trim()) { %>
+                <p>We couldn't find any listings matching "<span class="search-term"><%= searchQuery %></span>"</p>
+                <a href="/listings" class="btn btn-dark mt-3">Clear search</a>
+            <% } else if(selectedCategory) { %>
+                <p>No listings available in the "<span class="search-term"><%= selectedCategory %></span>" category</p>
+                <a href="/listings" class="btn btn-dark mt-3">View all listings</a>
+            <% } else { %>
+                <p>Check back later for new listings</p>
             <% } %>
-           <br>
-           <i class="fa-solid fa-location-arrow"></i> <%=  listing.location %>
-         </p>
-       </div>
-     </div>
-   </a>
-   <% } %>
- </div>
+        </div>
+    </div>
+<% } else { %>
+    <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 mt-3">
+        <% for(let listing of allListings){ %>
+            <div class="col mb-4">
+                <div class="card listing-card">
+                    <div class="card-image-container">
+                        <a href="/listings/<%= listing._id%>" class="listing-link">
+                            <img 
+                                src="<%= listing.image.url %>" 
+                                class="card-img-top" 
+                                alt="listing_image"  
+                            />
+                        </a>
+                        <button class="wishlist-btn" data-listing-id="<%= listing._id %>">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <a href="/listings/<%= listing._id%>" class="listing-link">
+                            <div class="card-content">
+                                <div class="location-rating">
+                                    <span class="location"><%= listing.title %></span>
+                                    <span class="rating">
+                                      <i class="fa-solid fa-star"></i> 
+                                      <% if(listing.reviewCount > 0) { %>
+                                          <%= listing.avgRating %>
+                                          <% if(listing.reviewCount > 0) { %>
+                                              <span class="review-count">(<%= listing.reviewCount %>)</span>
+                                          <% } %>
+                                      <% } else { %>
+                                          New
+                                      <% } %>
+                                  </span>
+                                </div>
+                                <div class="title"><%= listing.location %></div>
+                                <div class="price-section">
+                                    <% if (listing.price != null) { %>
+                                        <span class="price">&#8377;<%= listing.price.toLocaleString("en-IN") %></span>
+                                        <span class="night">/ night</span>
+                                    <% } else { %>
+                                        <span class="price">Price not available</span>
+                                    <% } %>
+                                    <span class="tax-info">+ ₹<%= Math.round(listing.price * 0.18).toLocaleString("en-IN") %> taxes</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+<% } %>
 
  <script>
-   let taxSwitch = document.getElementById("switchCheckDefault");
-   taxSwitch.addEventListener("click", () => {
-     let taxInfo = document.getElementsByClassName("tax-info");
-     for (info of taxInfo) {
-       if (info.style.display != "inline") {
-         info.style.display = "inline";
-       } else {
-         info.style.display = "none";
-       }
-     }
-   });
- </script>
+(function(){
+    const taxSwitch = document.getElementById('switchCheckDefault');
+    if(!taxSwitch) return;
+    
+    function updateTaxUI(){
+        const on = taxSwitch.checked;
+        document.querySelectorAll('.tax-info').forEach(el => el.style.display = on ? 'inline' : 'none');
+        const pill = document.querySelector('.tax-toggle');
+        if(pill) pill.classList.toggle('tax-on', on);
+        const mobileBtn = document.querySelector('.tax-toggle-mobile');
+        if(mobileBtn) mobileBtn.classList.toggle('tax-on', on);
+    }
+    
+    taxSwitch.addEventListener('change', updateTaxUI);
+    setTimeout(updateTaxUI, 20);
+})();
+</script>
+
+ <script>
+(function(){
+    const leftBtn = document.querySelector('.filters-left');
+    const rightBtn = document.querySelector('.filters-right');
+    const container = document.getElementById('filters');
+    if(!container || !leftBtn || !rightBtn) return;
+
+    function scrollAmount(){
+        return Math.round(container.clientWidth * 0.6) || 200;
+    }
+
+    function updateButtons(){
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        if(container.scrollLeft <= 5){
+            leftBtn.setAttribute('disabled', '');
+            leftBtn.classList.add('disabled');
+        } else {
+            leftBtn.removeAttribute('disabled');
+            leftBtn.classList.remove('disabled');
+        }
+        if(container.scrollLeft >= maxScroll - 5){
+            rightBtn.setAttribute('disabled', '');
+            rightBtn.classList.add('disabled');
+        } else {
+            rightBtn.removeAttribute('disabled');
+            rightBtn.classList.remove('disabled');
+        }
+    }
+
+    leftBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        container.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+    });
+    
+    rightBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        container.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+    });
+
+    container.addEventListener('scroll', updateButtons);
+    window.addEventListener('resize', updateButtons);
+    setTimeout(updateButtons, 100);
+})();
+</script>
+
+ <script>
+(function(){
+    const mobileBtn = document.querySelector('.tax-toggle-mobile');
+    const checkbox = document.getElementById('switchCheckDefault');
+    if(!mobileBtn || !checkbox) return;
+    
+    mobileBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        checkbox.click();
+        mobileBtn.animate([{ transform: 'scale(1)' }, { transform: 'scale(0.92)' }, { transform: 'scale(1)' }], { duration: 220 });
+    });
+})();
+</script>
+
+ <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const wishlistBtns = document.querySelectorAll('.wishlist-btn');
+    
+     async function initializeWishlist() {
+        <% if(currentUser) { %>
+            try {
+                const response = await fetch('/api/wishlist');
+                if(response.ok) {
+                    const data = await response.json();
+                    const wishlistIds = data.wishlist.map(id => id.toString());
+                    
+                    wishlistBtns.forEach(btn => {
+                        const listingId = btn.dataset.listingId;
+                        const heartIcon = btn.querySelector('i');
+                        
+                        if (wishlistIds.includes(listingId)) {
+                            heartIcon.classList.remove('fa-regular');
+                            heartIcon.classList.add('fa-solid');
+                        }
+                    });
+                }
+            } catch(err) {
+                console.error('Error fetching wishlist:', err);
+            }
+        <% } %>
+    }
+    
+    initializeWishlist();
+    
+    wishlistBtns.forEach(btn => {
+        btn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            <% if(!currentUser) { %>
+                window.showNotification('Please login to add items to wishlist', 'warning');
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 1500);
+                return;
+            <% } %>
+            
+            const listingId = this.dataset.listingId;
+            const heartIcon = this.querySelector('i');
+            
+             this.style.transform = 'scale(1.2)';
+            
+            try {
+                const response = await fetch(`/api/wishlist/toggle/${listingId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'added') {
+                    heartIcon.classList.remove('fa-regular');
+                    heartIcon.classList.add('fa-solid');
+                    window.showNotification('Added to wishlist!', 'success');
+                } else if (data.status === 'removed') {
+                    heartIcon.classList.remove('fa-solid');
+                    heartIcon.classList.add('fa-regular');
+                    window.showNotification('Removed from wishlist', 'success');
+                }
+            } catch (err) {
+                console.error('Error:', err);
+                window.showNotification('Something went wrong', 'error');
+            }
+            
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 200);
+        });
+    });
+});
+</script>
