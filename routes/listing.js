@@ -4,7 +4,7 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
 const listingController = require("../controller/listings.js");
 const multer  = require('multer')
-const {storage,cloudinary} =require("../cloudConfig.js");
+const {storage} =require("../cloudConfig.js");
 const upload = multer({storage});
 
 
@@ -20,8 +20,7 @@ router
 // new route
 router.get("/new", isLoggedIn, listingController.renderNewForm);
 
-router.get("/search",wrapAsync(listingController.searchListing));
-
+ 
 router
   .route("/:id")
   .get(wrapAsync(listingController.showListing))
