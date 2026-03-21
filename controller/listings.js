@@ -2,36 +2,46 @@ const Listing = require("../models/listing.js");
 const mongoose = require("mongoose");
 
 module.exports.index = async (req, res) => {
-  let allListings = await Listing.find({}).populate({
-      path: "reviews", 
-      select: "rating",
-    });;
-  res.render("listings/index.ejs", { allListings });
+  const {location ,category} =req.query;
+  let filter={}
+
+  if(location && location.trim() !== ""){
+    filter.location={$regex: new RegExp(location,"i")};
+  }
+  if(category && category.trim() !==""){
+  filter.location ={$regex: new RegExp(location,"i")};
+  }
+  let allListings = await Listing.find(filter).populate("reviews");
+  
+  const listingsWithRating =await allListings.map((listing)=>{
+    const listingObj =listing.toObject();
+    
+    if (listing.reviews && listing.reviews.length > 0) {
+      const totalRating = listing.reviews.reduce(
+        (sum, review) => sum + review.rating,
+        0,
+      );
+      listingObj.avgRating = (totalRating / listing.reviews.length).toFixed(1);
+      listingObj.reviewCount = listing.reviews.length;
+    } else {
+      listingObj.avgRating = null;
+      listingObj.reviewCount = 0;
+    }
+
+    return listingObj;
+   });
+
+  res.render("listings/index.ejs", {allListings:listingsWithRating,
+    searchQuery:location ||"",
+    selectedCategory:category || ""
+    });
 };
 
 module.exports.renderNewForm = (req, res) => {
   res.render("listings/new.ejs");
 };
 
-module.exports.searchListing = async(req,res)=>{
-const {q} =req.query;
-if(!q || q.trim()===""){
- return res.redirect("/listings");
-}
-const allListings =await Listing.find({
-  $or:[
-    {title:{$regex:q,$options:"i"}},
-     {location:{$regex:q,$options:"i"}},
-      {country:{$regex:q,$options:"i"}}
-  ]
-});
-if (allListings.length === 0) {
-  req.flash("error", "No listings found matching your search.");
-  return res.redirect("/listings");
-}
- res.render("listings/index.ejs",{allListings});
-
-};
+ 
 module.exports.showListing = async (req, res) => {
  
   let { id } = req.params;
@@ -64,7 +74,7 @@ module.exports.createListing = async (req, res, next) => {
   newListing.owner = req.user._id;
   newListing.image ={url,filename};
   await newListing.save();
-  req.flash("success", "New Listing Created");
+  req.flash("success", "New Listing Created!");
   res.redirect("/listings");
 };
 
