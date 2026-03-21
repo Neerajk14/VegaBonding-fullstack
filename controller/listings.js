@@ -9,7 +9,7 @@ module.exports.index = async (req, res) => {
     filter.location={$regex: new RegExp(location,"i")};
   }
   if(category && category.trim() !==""){
-  filter.location ={$regex: new RegExp(location,"i")};
+    filter.category = category;
   }
   let allListings = await Listing.find(filter).populate("reviews");
   
