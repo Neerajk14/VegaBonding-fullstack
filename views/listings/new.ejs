@@ -1,81 +1,278 @@
-<% layout("/layouts/boilerplate.ejs") %>
+<% layout("/layouts/boilerplate") %>
 
-<div class="row">
-  <div class="col-8 offset-2">
-    <h3>Create a New Listing</h3>
-    <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
-      <div class="mb-3">
-        <label for="title" class="form-label">Title</label>
-        <input
-          name="listing[title]"
-          placeholder=" Add a catchy title"
-          class="form-control"
-          required
-        />
-        <div class="valid-feedback">Title looks good!</div>
-      </div>
-      <div class="mb-3">
-        <label for="textarea" class="form-label">Description</label>
-        <textarea
-          name="listing[description]"
-          placeholder="enter description"
-          class="form-control"
-          required
-        ></textarea>
-
-        <div class="invalid-feedback">Please enter a short description!</div>
-      </div>
-      
-      <div class="mb-3">
-        <label for="image" class="form-label">Upload Image</label>
-        <input
-          name="listing[image]"
-          type="file"
-          class="form-control"
-          required
-        />
-        <div class="invalid-feedback">Please enter valid link for Image</div>
-      </div>
-
-
-      <div class="row">
-        <div class="mb-3 col-md-4">
-          <label for="price" class="form-label">Price</label>
-          <input
-            name="listing[price]"
-            type="number"
-            placeholder="1411"
-            class="form-control"
-            required
-          />
-          <div class="invalid-feedback">Price should be valid!</div>
-        </div>
-        <div class="mb-3 col-md-8">
-          <label for="country" class="form-label">Country</label>
-          <input
-            name="listing[country]"
-            type="text"
-            placeholder="India "
-            class="form-control"
-            required
-          />
-          <div class="invalid-feedback">Country should be valid!</div>
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label for="location" class="form-label">Location</label>
-        <input
-          name="listing[location]"
-          type="text"
-          placeholder="Indore Pipariya"
-          class="form-control"
-          required
-        />
-        <div class="invalid-feedback">Location should be valid!</div>
-      </div>
-      <button class="btn btn-dark add-btn">Add</button>
-      <br /><br /><br />
-    </form>
+<div class="new-listing-page">
+   <div class="page-header">
+    <h1>Your space, their stay</h1>
+    <p>Turn your place into a home for travelers worldwide</p>
   </div>
+
+   <form
+    action="/listings"
+    method="POST"
+    class="listing-form needs-validation"
+    enctype="multipart/form-data"
+    id="listingForm"
+    novalidate
+  >
+     <div class="form-group">
+      <label for="title">
+        <i class="fa-regular fa-pen-to-square"></i>
+        Give your place a title
+      </label>
+      <input
+      class="form-control"
+        type="text"
+        name="listing[title]"
+        id="title"
+        placeholder="e.g.,Quiet retreat away from the city noise"
+        required
+      />
+      <div class="field-footer valid-feedback">
+        <span class="hint">Catchy titles attract more guests!</span>
+        <span class="counter" id="titleCount">0/50</span>
+      </div>
+    </div>
+
+     <div class="form-group">
+      <label for="description">
+        <i class="fa-regular fa-file-lines"></i>
+        Describe your place
+      </label>
+      <textarea
+       class="form-control"
+        name="listing[description]"
+        id="description"
+        placeholder="Tell guests what makes your place special. Highlight unique features, amenities, and the experience they'll have..."
+        required
+        rows="4"
+      ></textarea>
+      <div class="field-footer">
+        <span class="hint"
+          >Build trust with accurate descriptions!</span
+        >
+        <span class="counter" id="descCount">0/500</span>
+      </div>
+    </div>
+
+     <div class="form-group">
+      <label for="image">
+        <i class="fa-regular fa-image"></i>
+        Add some photos
+      </label>
+      <div class="upload-area" id="uploadArea">
+        <input
+         class="form-control"
+          type="file"
+          name="listing[image]"
+          id="image"
+          accept="image/*"
+          required
+          hidden
+        />
+        <div class="upload-content">
+          <i class="fa-solid fa-cloud-upload"></i>
+          <p>Click to upload or drag and drop</p>
+          <small>PNG, JPG, GIF up to 10MB</small>
+        </div>
+        <div class="upload-preview" id="uploadPreview">
+          <img src="" alt="Preview" />
+          <button type="button" class="remove-image" id="removeImage">
+            <i class="fa-regular fa-circle-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+     <div class="form-row">
+      <div class="form-group half">
+        <label for="price">
+          <i class="fa-solid fa-indian-rupee-sign"></i>
+          Price per night
+        </label>
+        <div class="price-input">
+          <span class="currency">₹</span>
+          <input
+           class="form-control"
+            type="number"
+            name="listing[price]"
+            id="price"
+            placeholder="2500"
+            min="0"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-group half">
+        <label for="country">
+          <i class="fa-regular fa-flag"></i>
+          Country
+        </label>
+        <input
+         class="form-control"
+          type="text"
+          name="listing[country]"
+          id="country"
+          placeholder="e.g., India"
+          required
+        />
+      </div>
+    </div>
+
+     <div class="form-group">
+      <label for="category">
+        <i class="fa-solid fa-table-list"></i>
+        Choose a category
+      </label>
+      <div class="select-wrapper">
+        <select
+         class="form-control"
+          name="listing[category]"
+          id="category"
+          class="category-select"
+          required
+        >
+          <option value="" disabled selected>Select a category</option>
+          <option value="Trending">Trending</option>
+          <option value="Rooms">Rooms</option>
+          <option value="Iconic Cities">Iconic Cities</option>
+          <option value="Mountains">Mountains</option>
+          <option value="Castles">Castles</option>
+          <option value="Amazing Pools">Amazing Pools</option>
+          <option value="Camping">Camping</option>
+          <option value="Farms">Farms</option>
+          <option value="Arctic">Arctic</option>
+          <option value="Domes">Domes</option>
+          <option value="Boats">Boats</option>
+        </select>
+        <i class="fa-solid fa-chevron-down "></i>
+      </div>
+    </div>
+
+     <div class="form-group">
+      <label for="location">
+        <i class="fa-solid fa-location-dot"></i>
+        Where's your place located?
+      </label>
+      <input
+       class="form-control"
+        type="text"
+        name="listing[location]"
+        id="location"
+        placeholder="e.g., Jaipur, Rajasthan"
+        required
+      />
+      <span class="hint">A clear location improves search results</span>
+    </div>
+
+     <div class="form-actions">
+      <a href="/listings" class="btn-secondary">Cancel</a>
+      <button type="submit" class="btn-primary" id="submitBtn">
+        Publish listing
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </form>
 </div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+     const titleInput = document.getElementById("title");
+    const descInput = document.getElementById("description");
+    const titleCount = document.getElementById("titleCount");
+    const descCount = document.getElementById("descCount");
+
+    if (titleInput) {
+      titleInput.addEventListener("input", function () {
+        titleCount.textContent = `${this.value.length}/50`;
+      });
+    }
+
+    if (descInput) {
+      descInput.addEventListener("input", function () {
+        descCount.textContent = `${this.value.length}/500`;
+      });
+    }
+
+     const uploadArea = document.getElementById("uploadArea");
+    const imageInput = document.getElementById("image");
+    const uploadPreview = document.getElementById("uploadPreview");
+    const previewImg = uploadPreview.querySelector("img");
+    const removeBtn = document.getElementById("removeImage");
+
+    if (uploadArea && imageInput) {
+      uploadArea.addEventListener("click", function () {
+        imageInput.click();
+      });
+
+      uploadArea.addEventListener("dragover", function (e) {
+        e.preventDefault();
+        this.classList.add("dragover");
+      });
+
+      uploadArea.addEventListener("dragleave", function () {
+        this.classList.remove("dragover");
+      });
+
+      uploadArea.addEventListener("drop", function (e) {
+        e.preventDefault();
+        this.classList.remove("dragover");
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith("image/")) {
+          imageInput.files = e.dataTransfer.files;
+          handleImagePreview(file);
+        }
+      });
+
+      imageInput.addEventListener("change", function () {
+        if (this.files && this.files[0]) {
+          handleImagePreview(this.files[0]);
+        }
+      });
+    }
+
+    function handleImagePreview(file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        previewImg.src = e.target.result;
+        uploadPreview.style.display = "block";
+        uploadArea.classList.add("has-image");
+      };
+      reader.readAsDataURL(file);
+    }
+
+    if (removeBtn) {
+      removeBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        imageInput.value = "";
+        previewImg.src = "";
+        uploadPreview.style.display = "none";
+        uploadArea.classList.remove("has-image");
+      });
+    }
+
+     const form = document.getElementById("listingForm");
+    const submitBtn = document.getElementById("submitBtn");
+
+    if (form) {
+      form.addEventListener("submit", function (e) {
+        if (!form.checkValidity()) {
+          e.preventDefault();
+          const firstInvalid = form.querySelector(":invalid");
+          if (firstInvalid) {
+            firstInvalid.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+            firstInvalid.focus();
+          }
+        } else {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML =
+            'Creating... <i class="fa-solid fa-spinner fa-spin"></i>';
+        }
+      });
+    }
+  });
+</script>
