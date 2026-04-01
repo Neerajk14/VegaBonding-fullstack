@@ -51,9 +51,13 @@ const User = require("../models/user");
 
  module.exports.getTrips = async (req, res) => {
   try {
+     await Booking.updateMany(
+      { checkOut: { $lt: new Date() }, status: "confirmed" },
+      { $set: { status: "completed" } }
+    );
     const bookings = await Booking.find({
       user: req.user._id,
-      status: { $ne: "cancelled" },
+      status:"confirmed",
     })
       .populate("listing")
       .sort({ checkIn: -1 });
@@ -68,6 +72,11 @@ const User = require("../models/user");
 
  module.exports.getPastTrips = async (req, res) => {
   try {
+ await Booking.updateMany(
+      { checkOut: { $lt: new Date() }, status: "confirmed" },
+      { $set: { status: "completed" } }
+    );
+
     const bookings = await Booking.find({
       user: req.user._id,
       status: { $in: ["completed", "cancelled"] },

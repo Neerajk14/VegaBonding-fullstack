@@ -34,7 +34,8 @@
                     <div class="trip-details">
                         <div class="trip-header">
                             <h3><%= booking.listing.title %></h3>
-                            <span class="trip-status confirmed">Confirmed</span>
+                            <span class="trip-status <%= booking.status %>"> 
+                                 <%= booking.status.charAt(0).toUpperCase() + booking.status.slice(1) %></span>
                         </div>
                         <p class="trip-location">
                             <i class="fa-regular fa-map"></i> <%= booking.listing.location %>, <%= booking.listing.country %>
@@ -65,7 +66,7 @@
                                     const checkIn = new Date(booking.checkIn);
                                     const hoursUntilCheckIn = (checkIn - now) / (1000 * 60 * 60);
                                 %>
-                                <% if(hoursUntilCheckIn > 24) { %>
+                                <% if(   hoursUntilCheckIn > 24) { %>
                                     <form action="/bookings/<%= booking._id %>/cancel" method="POST" class="cancel-form">
                                         <button type="submit" class="cancel-btn" onclick="return confirm('Are you sure you want to cancel this booking?')">Cancel</button>
                                     </form>
