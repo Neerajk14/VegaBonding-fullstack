@@ -200,7 +200,7 @@
 /* Search bar responsive sizing  */
 @media (max-width: 768px) {
   .search-wrapper {
-    min-width: 220px;
+    min-width: 300px;
     max-width: 70%;
   }
 
@@ -234,7 +234,9 @@
 
 @media (min-width: 769px) and (max-width: 992px) {
   .search-wrapper {
+    left: 42%;
     max-width: 75%;
+    min-width: 310px;
   }
 
   .airbnb-search-bar {
