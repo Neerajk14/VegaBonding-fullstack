@@ -343,8 +343,7 @@
 
  .add-review-section {
   padding: 24px 0;
-  border-bottom: 1px solid #dddddd;
-}
+ }
 
 .add-review-section h2 {
   font-size: 22px;
@@ -430,29 +429,6 @@
 
 .submit-review-btn:hover {
   background-color: #e61e4d;
-}
-
- .map-section {
-  padding: 24px 0;
-}
-
-.map-section h2 {
-  font-size: 22px;
-  font-weight: 600;
-  color: #222222;
-  margin-bottom: 24px;
-}
-
-#map {
-  height: 400px;
-  width: 100%;
-  border-radius: 12px;
-  margin-bottom: 16px;
-}
-
-.map-location {
-  color: #222222;
-  font-size: 14px;
 }
 
  .booking-card {
