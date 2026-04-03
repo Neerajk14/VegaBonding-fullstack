@@ -12,8 +12,7 @@
   position: relative;
 }
 
-/* Logo */
-.navbar-brand {
+ .navbar-brand {
   padding: 0;
   margin-left: 1rem;
   flex-shrink: 0;
@@ -29,8 +28,7 @@
   font-size: 2.1rem;
 }
 
-/* Search Wrapper */
-.search-wrapper {
+ .search-wrapper {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -41,8 +39,7 @@
   justify-content: center;
 }
 
-/* Search Bar  */
-.airbnb-search-bar {
+ .airbnb-search-bar {
   display: flex;
   align-items: center;
   background: #fff;
@@ -76,8 +73,7 @@
   font-weight: 400;
 }
 
-/* search button  */
-.search-btn {
+ .search-btn {
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
@@ -138,14 +134,12 @@
   color: #333;
 }
 
-/* Right section with links and hamburger */
-.right-section {
+ .right-section {
   flex-shrink: 0;
   margin-left: auto;
 }
 
-/* Desktop links */
-.desktop-links {
+ .desktop-links {
   gap: 0.75rem;
   margin-right: 0;
   display: flex;
@@ -160,7 +154,7 @@
 
 .desktop-links .nav-link:first-child {
   border-radius: 40px;
-  padding: 0.5rem 1rem;
+  /* padding: 0.5rem 1rem; */
   background-color: white;
   transition: all 0.2s ease;
 }
@@ -170,20 +164,17 @@
   border-color: #222222;
 }
 
-/* Right margin for last link */
-.desktop-links .nav-link:last-child {
+ .desktop-links .nav-link:last-child {
   margin-right: 1rem !important;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
+ @media (max-width: 768px) {
   .navbar {
     padding: 0.6rem 1rem;
   }
 }
-
-/* Hide app name on very small screens */
-@media (max-width: 576px) {
+ 
+ @media (max-width: 576px) {
   #appName {
     display: none;
   }
@@ -197,11 +188,11 @@
   }
 }
 
-/* Search bar responsive sizing  */
-@media (max-width: 768px) {
+ @media (max-width: 768px) {
   .search-wrapper {
     min-width: 300px;
     max-width: 70%;
+    left: 47%;
   }
 
   .airbnb-search-bar {
@@ -231,7 +222,25 @@
     font-size: 0.9rem;
   }
 }
+@media(min-width:350px) and (max-width:450px){
+    .search-wrapper {
+      min-width: 200px;
+      max-width: 90%;
+   }
 
+   .airbnb-search-bar {
+      padding: 0.4rem;
+      height: 38px;
+   }
+
+   .search-btn {
+      width: 2rem;
+      height: 2rem;
+   }
+     .main-search-input {
+    font-size: 0.7rem;
+  }
+}
 @media (min-width: 769px) and (max-width: 992px) {
   .search-wrapper {
     left: 42%;
@@ -240,7 +249,7 @@
   }
 
   .airbnb-search-bar {
-    max-width: 700px;
+    max-width: 850px;
     padding: 0.25rem 0.25rem 0.25rem 1.2rem;
     height: 50px;
   }
@@ -319,8 +328,7 @@
   }
 }
 
-/* 4K screens - maximum width */
-@media (min-width: 2000px) {
+ @media (min-width: 2000px) {
   .search-wrapper {
     max-width: 95%;
   }
@@ -345,8 +353,7 @@
   }
 }
 
-/* Hamburger button */
-.navbar-toggler {
+ .navbar-toggler {
   border: none;
   padding: 0.5rem;
 }
@@ -355,8 +362,7 @@
   box-shadow: none;
 }
 
-/* Mobile menu styling */
-.navbar-collapse {
+ .navbar-collapse {
   background: white;
   position: absolute;
   top: 100%;
@@ -376,8 +382,7 @@
   border-bottom: none;
 }
 
-/* Profile Dropdown */
-.profile-dropdown {
+ .profile-dropdown {
   background-color: white;
   border: 1px solid #dddddd;
   border-radius: 40px;
@@ -442,8 +447,7 @@
   border-top-color: #dddddd;
 }
 
-/* Black Profile Circle */
-.profile-circle-link {
+ .profile-circle-link {
   text-decoration: none;
   margin-right: 0rem;
 }
@@ -475,64 +479,10 @@
   line-height: 1;
 }
 
-/* Adjust spacing between elements */
-.desktop-links {
+ .desktop-links {
   gap: 0.75rem;
   margin-right: 0.5rem;
 }
 
-/* Mobile responsive */
-@media (max-width: 768px) {
-  .profile-circle {
-    width: 36px;
-    height: 36px;
-  }
-
-  .profile-initial {
-    font-size: 1rem;
-  }
-}
-
- .bottom-nav-outer{
-  width: 100%;
-  height: 5vh;
-  }
-
-  .mobile-bottom-nav {
-     border-radius: 20px;
-  position: fixed;
-  bottom: 0;
-  left: 30px;
-   width: 90%;
-  background:rgb(217, 213, 213);
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: 0.6rem 0;
-  box-shadow: 0 -3px 10px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease-in-out;
-  z-index: 1050;
-}
-
-.mobile-bottom-nav a {
-  text-decoration: none;
-  color: #333;
-  font-size: 0.8rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.mobile-bottom-nav svg {
-  font-size: 1.2rem;
-  margin-bottom: 2px;
-  color: #fe424d;
-}
-.mobile-bottom-nav span{
-  color: #222222;
-}
-
-.mobile-bottom-nav.hide {
-  transform: translateY(100%);
-}
+ 
  
